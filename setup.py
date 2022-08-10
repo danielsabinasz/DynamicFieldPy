@@ -9,6 +9,6 @@ setup(name='DynamicFieldPy',
       license='CC-BY-ND 3.0',
       packages=['dfpy'],
       install_requires=[
-          'PIL'
+          'pillow'
       ],
       zip_safe=False)
