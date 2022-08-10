@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(name='DynamicFieldPy',
       version='0.1',
@@ -7,7 +7,7 @@ setup(name='DynamicFieldPy',
       author='Daniel Sabinasz',
       author_email='daniel@sabinasz.net',
       license='CC-BY-ND 3.0',
-      packages=['dfpy'],
+      packages=find_packages(include=['dfpy', 'dfpy.*']),
       install_requires=[
           'pillow'
       ],
