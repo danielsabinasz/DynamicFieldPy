@@ -1,4 +1,3 @@
-from cosivina.NeuralField import NeuralField
 from dfpy.shared import get_default_neural_structure
 from dfpy.weight_patterns import CustomWeightPattern
 
