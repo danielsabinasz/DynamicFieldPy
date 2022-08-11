@@ -1,3 +1,4 @@
+from dfpy import dimensions_from_sizes
 from dfpy.steps.input import Input
 
 
@@ -14,6 +15,10 @@ class GaussInput(Input):
         """
 
         super().__init__(static=True, name=name)
+
+        if type(dimensions) == tuple:
+            dimensions = dimensions_from_sizes(*dimensions)
+
         self._dimensions = dimensions
         self._height = height
 
@@ -33,13 +38,11 @@ class GaussInput(Input):
             sigmas = [float(sigmas)]
         self._sigmas = sigmas
 
+        self._post_constructor()
+
     @property
     def dimensions(self):
         return self._dimensions
-
-    @dimensions.setter
-    def dimensions(self, dimensions):
-        self._dimensions = dimensions
 
     @property
     def height(self):
@@ -48,6 +51,7 @@ class GaussInput(Input):
     @height.setter
     def height(self, height):
         self._height = height
+        self._notify_observers("height")
 
     @property
     def mean(self):
@@ -56,6 +60,7 @@ class GaussInput(Input):
     @mean.setter
     def mean(self, mean):
         self._mean = mean
+        self._notify_observers("mean")
 
     @property
     def sigmas(self):
@@ -64,6 +69,7 @@ class GaussInput(Input):
     @sigmas.setter
     def sigmas(self, sigmas):
         self._sigmas = sigmas
+        self._notify_observers("sigmas")
 
     def domain(self):
         return [[dimension.lower, dimension.upper] for dimension in self._dimensions]

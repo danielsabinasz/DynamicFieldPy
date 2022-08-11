@@ -27,6 +27,8 @@ class Node(Step):
         self._activation_function = activation_function
         self._noise_strength = float(noise_strength)
 
+        self._post_constructor()
+
     @property
     def resting_level(self):
         return self._resting_level
@@ -34,6 +36,7 @@ class Node(Step):
     @resting_level.setter
     def resting_level(self, resting_level):
         self._resting_level = resting_level
+        self._notify_observers("resting_level")
 
     @property
     def time_scale(self):
@@ -42,6 +45,7 @@ class Node(Step):
     @time_scale.setter
     def time_scale(self, time_scale):
         self._time_scale = time_scale
+        self._notify_observers("time_scale")
 
     @property
     def activation_function(self):
@@ -50,6 +54,7 @@ class Node(Step):
     @activation_function.setter
     def activation_function(self, activation_function):
         self._activation_function = activation_function
+        self._notify_observers("activation_function")
 
     @property
     def self_excitation(self):
@@ -58,6 +63,7 @@ class Node(Step):
     @self_excitation.setter
     def self_excitation(self, self_excitation):
         self._self_excitation = self_excitation
+        self._notify_observers("self_excitation")
 
     @property
     def noise_strength(self):
@@ -66,3 +72,4 @@ class Node(Step):
     @noise_strength.setter
     def noise_strength(self, noise_strength):
         self._noise_strength = noise_strength
+        self._notify_observers("noise_strength")

@@ -5,8 +5,6 @@ import dfpy.shared
 class Step:
     """Base class for a step.
 
-    :param NeuralStructure neural_structure: the materialized neural structure to which the
-    step belongs; if None is provided, the default one is used
     :param bool static: whether the step yields the same value on each time step
     :param bool stateful: whether the step is stateful, i.e., the state at a given time-step is relevant for
     computing the state at the next time step
@@ -21,8 +19,10 @@ class Step:
         self._stateful = stateful
         self._inputs = inputs
         self._name = unique_name(name, neural_structure)
+        self._observers = []
 
-        neural_structure.add_step(self)
+    def _post_constructor(self):
+        self._neural_structure.add_step(self)
 
     @property
     def static(self):
@@ -43,3 +43,12 @@ class Step:
     @name.setter
     def name(self, name):
         self._name = name
+        for observer in self._observers:
+            observer()
+
+    def register_observer(self, observer):
+        self._observers.append(observer)
+
+    def _notify_observers(self, changed_param):
+        for observer in self._observers:
+            observer(self, changed_param)

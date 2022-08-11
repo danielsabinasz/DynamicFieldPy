@@ -1,5 +1,6 @@
 from typing import Union
 
+from dfpy import dimensions_from_sizes
 from dfpy.weight_patterns import WeightPattern
 from dfpy.activation_function import Sigmoid
 from dfpy.activation_function import ActivationFunction
@@ -14,7 +15,7 @@ class Field(Step):
                  time_scale: float = 100.0,
                  interaction_kernel: WeightPattern=None, global_inhibition: float=0.0,
                  noise_strength: float=0.1,
-                 name="Neural Field"):
+                 name="Field"):
         """Creates a neural field.
 
         :param dimensions: list of `:class:`.Dimension` objects characterizing the dimensions of the field.
@@ -29,6 +30,9 @@ class Field(Step):
 
         super().__init__(name=name)
 
+        if type(dimensions) == tuple:
+            dimensions = dimensions_from_sizes(*dimensions)
+
         self._dimensions = dimensions
         self._resting_level = float(resting_level)
         self._activation_function = activation_function
@@ -37,6 +41,8 @@ class Field(Step):
         self._global_inhibition = float(global_inhibition)
         self._noise_strength = float(noise_strength)
 
+        self._post_constructor()
+
     @property
     def dimensions(self):
         return self._dimensions
@@ -44,6 +50,7 @@ class Field(Step):
     @dimensions.setter
     def dimensions(self, dimensions):
         self._dimensions = dimensions
+        self._notify_observers("dimensions")
 
     @property
     def activation_function(self):
@@ -52,6 +59,7 @@ class Field(Step):
     @activation_function.setter
     def activation_function(self, activation_function):
         self._activation_function = activation_function
+        self._notify_observers("activation_function")
 
     @property
     def resting_level(self):
@@ -60,6 +68,7 @@ class Field(Step):
     @resting_level.setter
     def resting_level(self, resting_level):
         self._resting_level = resting_level
+        self._notify_observers("resting_level")
 
     @property
     def time_scale(self):
@@ -68,6 +77,7 @@ class Field(Step):
     @time_scale.setter
     def time_scale(self, time_scale):
         self._time_scale = time_scale
+        self._notify_observers("time_scale")
 
     @property
     def interaction_kernel(self):
@@ -76,6 +86,7 @@ class Field(Step):
     @interaction_kernel.setter
     def interaction_kernel(self, interaction_kernel):
         self._interaction_kernel = interaction_kernel
+        self._notify_observers("interaction_kernel")
 
     @property
     def global_inhibition(self):
@@ -84,6 +95,7 @@ class Field(Step):
     @global_inhibition.setter
     def global_inhibition(self, global_inhibition):
         self._global_inhibition = global_inhibition
+        self._notify_observers("global_inhibition")
 
     @property
     def noise_strength(self):
@@ -92,6 +104,7 @@ class Field(Step):
     @noise_strength.setter
     def noise_strength(self, noise_strength):
         self._noise_strength = noise_strength
+        self._notify_observers("noise_strength")
 
     def domain(self):
         return [[dimension.lower, dimension.upper] for dimension in self._dimensions]

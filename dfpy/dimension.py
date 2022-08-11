@@ -18,7 +18,7 @@ class Dimension:
 
     @classmethod
     def from_size(cls, size):
-        return cls(lower=0, upper=size-1, size=size)
+        return cls(lower=0.0, upper=float(size-1), size=size)
 
     @property
     def name(self):
@@ -37,5 +37,5 @@ class Dimension:
         return self._size
 
 
-def dimensions_from_sizes(sizes):
+def dimensions_from_sizes(*sizes):
     return [Dimension.from_size(size) for size in sizes]

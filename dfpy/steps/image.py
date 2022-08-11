@@ -27,6 +27,8 @@ class Image(Step):
         else:
             self._shape = self._image.size
 
+        self._post_constructor()
+
     @property
     def filename(self):
         return self._filename
@@ -34,6 +36,7 @@ class Image(Step):
     @filename.setter
     def filename(self, filename):
         self._filename = filename
+        self._notify_observers("filename")
 
     @property
     def image(self):
@@ -42,3 +45,4 @@ class Image(Step):
     @image.setter
     def image(self, image):
         self._image = image
+        self._notify_observers("image")

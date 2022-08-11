@@ -15,6 +15,8 @@ class Scalar(Step):
 
         self._value = value
 
+        self._post_constructor()
+
     @property
     def value(self):
         return self._value
@@ -22,3 +24,4 @@ class Scalar(Step):
     @value.setter
     def value(self, value):
         self._value = value
+        self._notify_observers("value")

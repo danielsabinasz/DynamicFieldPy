@@ -16,6 +16,8 @@ class ScalarMultiplication(Step):
         self._shape = shape
         self._scalar = scalar
 
+        self._post_constructor()
+
     @property
     def shape(self):
         return self._shape
@@ -23,6 +25,7 @@ class ScalarMultiplication(Step):
     @shape.setter
     def shape(self, shape):
         self._shape = shape
+        self._notify_observers("shape")
 
     @property
     def scalar(self):
@@ -31,3 +34,4 @@ class ScalarMultiplication(Step):
     @scalar.setter
     def scalar(self, scalar):
         self._scalar = scalar
+        self._notify_observers("scalar")

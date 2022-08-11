@@ -21,6 +21,8 @@ class RateMatrixToSpaceCode(Step):
         self._lower_limit = lower_limit
         self._upper_limit = upper_limit
 
+        self._post_constructor()
+
     @property
     def number_of_bins(self):
         return self._number_of_bins
@@ -28,6 +30,7 @@ class RateMatrixToSpaceCode(Step):
     @number_of_bins.setter
     def number_of_bins(self, number_of_bins):
         self._number_of_bins = number_of_bins
+        self._notify_observers("number_of_bins")
 
     @property
     def lower_limit(self):
@@ -36,6 +39,7 @@ class RateMatrixToSpaceCode(Step):
     @lower_limit.setter
     def lower_limit(self, lower_limit):
         self._lower_limit = lower_limit
+        self._notify_observers("lower_limit")
 
     @property
     def upper_limit(self):
@@ -44,3 +48,4 @@ class RateMatrixToSpaceCode(Step):
     @upper_limit.setter
     def upper_limit(self, upper_limit):
         self._upper_limit = upper_limit
+        self._notify_observers("upper_limit")

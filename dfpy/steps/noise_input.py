@@ -17,6 +17,8 @@ class NoiseInput(Input):
         self._shape = tuple([dim.size for dim in dimensions])
         self._strength = strength
 
+        self._post_constructor()
+
     @property
     def dimensions(self):
         return self._dimensions
@@ -24,6 +26,7 @@ class NoiseInput(Input):
     @dimensions.setter
     def dimensions(self, dimensions):
         self._dimensions = dimensions
+        self._notify_observers("dimensions")
 
     @property
     def shape(self):
@@ -32,6 +35,7 @@ class NoiseInput(Input):
     @shape.setter
     def shape(self, shape):
         self._shape = shape
+        self._notify_observers("shape")
 
     @property
     def strength(self):
@@ -40,3 +44,4 @@ class NoiseInput(Input):
     @strength.setter
     def strength(self, strength):
         self._strength = strength
+        self._notify_observers("strength")

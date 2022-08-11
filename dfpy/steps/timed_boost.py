@@ -18,6 +18,8 @@ class TimedBoost(Step):
         for key in values:
             self._values[float(key)] = float(values[key])
 
+        self._post_constructor()
+
     @property
     def values(self):
         return self._values
@@ -25,3 +27,4 @@ class TimedBoost(Step):
     @values.setter
     def values(self, values):
         self._values = values
+        self._notify_observers("values")

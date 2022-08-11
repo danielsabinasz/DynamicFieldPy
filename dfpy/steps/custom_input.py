@@ -14,6 +14,8 @@ class CustomInput(Input):
         super().__init__(static=True, name=name)
         self._pattern = pattern
 
+        self._post_constructor()
+
     @property
     def pattern(self):
         return self._pattern
@@ -21,3 +23,4 @@ class CustomInput(Input):
     @pattern.setter
     def pattern(self, pattern):
         self._pattern = pattern
+        self._notify_observers()

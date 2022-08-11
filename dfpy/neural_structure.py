@@ -13,6 +13,8 @@ class NeuralStructure:
         self._steps = []
         self._connections_into_steps = []
         self._steps_by_name = {}
+        self._add_step_observers = []
+        self._add_connection_observers = []
 
     def add_step(self, step):
         """Adds a step to the mcs.
@@ -23,6 +25,22 @@ class NeuralStructure:
         self._steps.append(step)
         self._connections_into_steps.append([])
         self._steps_by_name[step.name] = step
+
+        self._handle_step_created(step)
+
+    def _handle_step_created(self, step):
+        for observer in self._add_step_observers:
+            observer(step)
+
+    def _handle_connection_created(self, connection):
+        for observer in self._add_connection_observers:
+            observer(connection)
+
+    def register_add_step_observer(self, observer):
+        self._add_step_observers.append(observer)
+
+    def register_add_connection_observer(self, observer):
+        self._add_connection_observers.append(observer)
 
     def connect(self, input_step, output_step, kernel_weights=None,
                 pointwise_weights=None, activation_function=None, contract_dimensions: list=None,
@@ -88,6 +106,9 @@ class NeuralStructure:
 
         output_step_index = self._steps.index(output_step)
         self._connections_into_steps[output_step_index].append(connection)
+
+        self._handle_connection_created(connection)
+
         return connection
 
     @property
