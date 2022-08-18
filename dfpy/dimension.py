@@ -11,6 +11,16 @@ class Dimension:
         if size % 2 == 0:
             raise RuntimeError("Please provide an odd size for the dimensions. This avoids incompatibilities between different simulation frameworks.")
 
+
+        if type(lower) == int:
+            lower = float(lower)
+
+        if type(upper) == int:
+            upper = float(upper)
+
+        if type(size) != int:
+            raise RuntimeError("Invalid data type for parameter 'size': " + str(type(size)))
+
         self._lower = lower
         self._upper = upper
         self._size = size

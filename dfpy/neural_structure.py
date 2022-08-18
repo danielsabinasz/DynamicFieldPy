@@ -4,6 +4,8 @@ from dfpy.weight_patterns import CustomWeightPattern
 from dfpy.steps import Step, Field, Node
 from dfpy.connection import SynapticConnection, DirectConnection
 
+import numpy as np
+import tensorflow as tf
 
 class NeuralStructure:
     """Base class for a DFT materialized connectivity structure (MCS).
@@ -89,10 +91,12 @@ class NeuralStructure:
                     raise RuntimeError(f"Cannot connect a {type(input_step)} synaptically without providing an "
                                        f"activation function")
 
-            if type(kernel_weights) == list:
+            if type(kernel_weights) == list or isinstance(kernel_weights, np.ndarray)\
+                    or isinstance(kernel_weights, tf.Tensor):
                 kernel_weights = CustomWeightPattern(kernel_weights)
 
-            if type(pointwise_weights) == list:
+            if type(pointwise_weights) == list or isinstance(pointwise_weights, np.ndarray)\
+                    or isinstance(pointwise_weights, tf.Tensor):
                 pointwise_weights = CustomWeightPattern(pointwise_weights)
 
             connection = SynapticConnection(input_step, input_step_index, output_step, kernel_weights,

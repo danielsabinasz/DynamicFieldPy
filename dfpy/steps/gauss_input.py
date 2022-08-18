@@ -59,6 +59,8 @@ class GaussInput(Input):
 
     @mean.setter
     def mean(self, mean):
+        if type(mean) == float or type(mean) == int:
+            mean = [float(mean)]
         self._mean = mean
         self._notify_observers("mean")
 
