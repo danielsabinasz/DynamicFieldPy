@@ -2,6 +2,7 @@ from dfpy.steps.step import Step
 from dfpy.steps.field import Field
 from dfpy.steps.node import Node
 from dfpy.steps.timed_boost import TimedBoost
+from dfpy.steps.timed_gate import TimedGate
 from dfpy.steps.boost import Boost
 from dfpy.steps.gauss_input import GaussInput
 from dfpy.steps.custom_input import CustomInput

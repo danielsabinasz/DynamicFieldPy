@@ -2,7 +2,7 @@ from dfpy.steps.input import Input
 
 
 class CustomInput(Input):
-    """Computes a static Gauss input
+    """Computes a static custom input
     """
     def __init__(self, pattern, name="CustomInput"):
         """Creates a CustomInput.
