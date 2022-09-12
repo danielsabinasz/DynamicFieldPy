@@ -10,6 +10,6 @@ setup(name='DynamicFieldPy',
       license='CC-BY-ND 3.0',
       packages=find_packages(include=['dfpy', 'dfpy.*']),
       install_requires=[
-          'pillow'
+          'pillow==9.2.0'
       ],
       zip_safe=False)
