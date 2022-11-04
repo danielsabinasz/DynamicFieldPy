@@ -32,6 +32,8 @@ class Field(Step):
 
         if type(dimensions) == tuple:
             dimensions = dimensions_from_sizes(*dimensions)
+        elif type(dimensions) != list:
+            raise TypeError(f"Dimensions parameter has unsupported type '{type(dimensions)}'. The type must be either a tuple of integers or a list of 'Dimension' objects")
 
         self._dimensions = dimensions
         self._resting_level = float(resting_level)

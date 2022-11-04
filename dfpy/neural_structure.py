@@ -75,14 +75,14 @@ class NeuralStructure:
         #        or type(contraction_weights) == np.ndarray and len(contraction_weights.shape) == 1):
         #    contraction_weights = [contraction_weights]
 
-        if contract_dimensions is None and type(input_step) == Field and type(output_step) == Node:
+        if contract_dimensions is None and isinstance(input_step, Field) and isinstance(output_step, Node):
             contract_dimensions = range(len(input_step.dimensions))
 
         input_step_index = self._steps.index(input_step)
 
         if kernel_weights is not None or pointwise_weights is not None\
-                or (type(input_step) == Field or type(input_step) == Node)\
-                and (type(output_step) == Field or type(output_step) == Node):
+                or (isinstance(input_step, Field) or isinstance(input_step, Node))\
+                and (isinstance(output_step, Field) or isinstance(output_step, Node)):
             # The user intends a synaptic connection
             if activation_function is None:
                 if isinstance(input_step, Field) or isinstance(input_step, Node):
