@@ -11,7 +11,7 @@ class Field(Step):
     """Computes a neural field dynamics.
     """
     def __init__(self, dimensions: list, resting_level: float=-5.0,
-                 activation_function: ActivationFunction = Sigmoid(beta=100),
+                 activation_function: ActivationFunction = Sigmoid(beta=1.0),
                  time_scale: float = 100.0,
                  interaction_kernel: WeightPattern=None, global_inhibition: float=0.0,
                  noise_strength: float=0.1,
