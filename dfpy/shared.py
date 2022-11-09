@@ -18,4 +18,3 @@ def set_default_neural_structure(ns):
     """
     global _default_ns
     _default_ns = ns
-
