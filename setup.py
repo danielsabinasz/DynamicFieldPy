@@ -11,6 +11,6 @@ setup(name='DynamicFieldPy',
       packages=find_packages(include=['dfpy', 'dfpy.*']),
       install_requires=[
           'pillow==9.2.0',
-          'numpy==1.21'
+          'numpy==1.22.3'
       ],
       zip_safe=False)
