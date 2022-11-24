@@ -15,6 +15,7 @@ class NeuralStructure:
         self._steps = []
         self._connections_into_steps = []
         self._steps_by_name = {}
+        self._step_indices_by_name = {}
         self._add_step_observers = []
         self._add_connection_observers = []
 
@@ -26,6 +27,7 @@ class NeuralStructure:
 
         self._steps.append(step)
         self._connections_into_steps.append([])
+        self._step_indices_by_name[step.name] = len(self._steps)
         self._steps_by_name[step.name] = step
 
         self._handle_step_created(step)
@@ -143,6 +145,9 @@ class NeuralStructure:
 
     def get_step_by_name(self, name: str):
         return self._steps_by_name[name]
+
+    def get_step_index_by_name(self, name: str):
+        return self._step_indices_by_name[name]
 
     def get_connection_by_step_names(self, input_step_name: str, output_step_name: str):
         input_step = self.get_step_by_name(input_step_name)
