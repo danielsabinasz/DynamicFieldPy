@@ -25,9 +25,9 @@ class NeuralStructure:
         :param Step step: step to add
         """
 
+        self._step_indices_by_name[step.name] = len(self._steps)
         self._steps.append(step)
         self._connections_into_steps.append([])
-        self._step_indices_by_name[step.name] = len(self._steps)
         self._steps_by_name[step.name] = step
 
         self._handle_step_created(step)
