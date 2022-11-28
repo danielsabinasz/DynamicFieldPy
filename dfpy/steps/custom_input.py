@@ -23,4 +23,4 @@ class CustomInput(Input):
     @pattern.setter
     def pattern(self, pattern):
         self._pattern = pattern
-        self._notify_observers()
+        self._notify_observers("pattern")
