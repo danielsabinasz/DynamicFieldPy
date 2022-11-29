@@ -1,3 +1,4 @@
+from dfpy import dimensions_from_sizes
 from dfpy.steps.input import Input
 
 
