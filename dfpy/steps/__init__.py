@@ -11,3 +11,4 @@ from dfpy.steps.image import Image
 from dfpy.steps.rate_matrix_to_space_code import RateMatrixToSpaceCode
 from dfpy.steps.scalar import Scalar
 from dfpy.steps.scalar_multiplication import ScalarMultiplication
+from dfpy.steps.timed_custom_input import TimedCustomInput
