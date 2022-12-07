@@ -18,7 +18,8 @@ class TimedCustomInput(Input):
         if type(dimensions) == tuple:
             dimensions = dimensions_from_sizes(*dimensions)
         elif type(dimensions) != list:
-            raise TypeError(f"Dimensions parameter has unsupported type '{type(dimensions)}'. The type must be either a tuple of integers or a list of 'Dimension' objects")
+            raise TypeError(f"Dimensions parameter has unsupported type '{type(dimensions)}'. "
+                            f"The type must be either a tuple of integers or a list of 'Dimension' objects")
 
         self._dimensions = dimensions
         self._timed_custom_input = timed_custom_input
@@ -42,3 +43,6 @@ class TimedCustomInput(Input):
     def timed_custom_input(self, timed_custom_input):
         self._timed_custom_input = timed_custom_input
         self._notify_observers("timed_custom_input")
+
+    def dimensionality(self):
+        return len(self._dimensions)

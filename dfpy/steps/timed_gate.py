@@ -47,3 +47,6 @@ class TimedGate(Input):
 
     def shape(self):
         return tuple([dimension.size for dimension in self._dimensions])
+
+    def dimensionality(self):
+        return len(self._dimensions)

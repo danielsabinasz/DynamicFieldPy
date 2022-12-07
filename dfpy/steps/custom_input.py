@@ -1,5 +1,5 @@
 from dfpy.steps.input import Input
-
+import numpy as np
 
 class CustomInput(Input):
     """Computes a static custom input
@@ -12,7 +12,7 @@ class CustomInput(Input):
         """
 
         super().__init__(static=True, name=name)
-        self._pattern = pattern
+        self._pattern = np.array(pattern)
 
         self._post_constructor()
 
@@ -22,5 +22,8 @@ class CustomInput(Input):
 
     @pattern.setter
     def pattern(self, pattern):
-        self._pattern = pattern
+        self._pattern = np.array(pattern)
         self._notify_observers("pattern")
+
+    def dimensionality(self):
+        return len(self._pattern.shape)

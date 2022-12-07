@@ -5,6 +5,7 @@ from dfpy.activation_function import Sigmoid
 class Node(Step):
     """Computes a neural node dynamics.
     """
+
     def __init__(self, resting_level=-5.0, time_scale=100, self_excitation=0.0,
                  activation_function=Sigmoid(100.0),
                  noise_strength=0.2,
@@ -73,3 +74,6 @@ class Node(Step):
     def noise_strength(self, noise_strength):
         self._noise_strength = noise_strength
         self._notify_observers("noise_strength")
+
+    def dimensionality(self):
+        return 0

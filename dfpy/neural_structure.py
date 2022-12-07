@@ -24,6 +24,8 @@ class NeuralStructure:
 
         :param Step step: step to add
         """
+        if step in self._steps:
+            raise RuntimeError(f"Trying to add step f{step.name} to the neural structure twice.")
 
         self._step_indices_by_name[step.name] = len(self._steps)
         self._steps.append(step)

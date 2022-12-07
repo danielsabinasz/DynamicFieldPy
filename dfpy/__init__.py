@@ -5,6 +5,7 @@ from dfpy.neural_structure import add_step
 from dfpy.activation_function import *
 from dfpy.weight_patterns import *
 from dfpy.connection import connect
+from dfpy.shared import get_default_neural_structure
 import dfpy.utils
 import dfpy.shared
 import dfpy.config

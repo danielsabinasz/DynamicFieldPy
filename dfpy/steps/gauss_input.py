@@ -1,6 +1,6 @@
 from dfpy import dimensions_from_sizes
 from dfpy.steps.input import Input
-
+import numpy as np
 
 class GaussInput(Input):
     """Computes a static Gauss input
@@ -29,6 +29,10 @@ class GaussInput(Input):
             mean = [0.0]*ndim
         if type(mean) == float or type(mean) == int:
             mean = [float(mean)]
+        if type(mean) == np.ndarray:
+            if mean.dtype != np.float32:
+                raise RuntimeError("The datatype of the mean must be np.float32")
+
         self._mean = mean
 
         # Stddev is 1 in each dimension by default
@@ -78,3 +82,7 @@ class GaussInput(Input):
 
     def shape(self):
         return tuple([dimension.size for dimension in self._dimensions])
+
+
+    def dimensionality(self):
+        return len(self._dimensions)

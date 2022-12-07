@@ -126,6 +126,16 @@ def connect(source, target, kernel_weights=None, pointwise_weights=None, activat
     """
     if ns is None:
         ns = get_default_neural_structure()
+
+    source_dim = source.dimensionality()
+    target_dim = target.dimensionality()
+    if source_dim > target_dim:
+        if source_dim - len(contract_dimensions) != target_dim:
+            raise RuntimeError(f"Connecting a step of dimensionality {source_dim} to a step of "
+                               f"dimensionality {target_dim} requires {source_dim - target_dim} contractions. "
+                               f"Specify a list of contracted dimension indices using the "
+                               f"`contract_dimensions` parameter!")
+
     return ns.connect(source, target, kernel_weights, pointwise_weights, activation_function,
                        contract_dimensions, contraction_weights,
                        expand_dimensions)

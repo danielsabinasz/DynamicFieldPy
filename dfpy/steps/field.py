@@ -43,6 +43,9 @@ class Field(Step):
         self._global_inhibition = float(global_inhibition)
         self._noise_strength = float(noise_strength)
 
+        if self._interaction_kernel.dimensionality() != len(self._dimensions):
+            raise RuntimeError(f"Dimensionality of {self._name} does not match the dimensionality of its interaction kernel")
+
         self._post_constructor()
 
     @property
@@ -113,3 +116,6 @@ class Field(Step):
 
     def shape(self):
         return tuple([dimension.size for dimension in self._dimensions])
+
+    def dimensionality(self):
+        return len(self._dimensions)

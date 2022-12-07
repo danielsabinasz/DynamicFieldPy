@@ -28,3 +28,6 @@ class TimedBoost(Step):
     def values(self, values):
         self._values = values
         self._notify_observers("values")
+
+    def dimensionality(self):
+        return 0

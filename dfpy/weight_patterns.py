@@ -32,9 +32,17 @@ class SumWeightPattern(WeightPattern):
         """
         self._weight_patterns = weight_patterns
 
+        ndim = weight_patterns[0].dimensionality()
+        for weight_pattern in weight_patterns:
+            if weight_pattern.dimensionality() != ndim:
+                raise RuntimeError("Components of SumWeightPattern have non-matching dimensionalities")
+
     @property
     def weight_patterns(self):
         return self._weight_patterns
+
+    def dimensionality(self):
+        return self._weight_patterns[0].dimensionality()
 
     def __str__(self):
         return "SumWeightPattern(weight_patterns=" + ','.join([str(x) for x in self._weight_patterns]) + ")"
@@ -53,7 +61,7 @@ class GaussWeightPattern(WeightPattern):
         if type(sigmas) == int or type(sigmas) == float:
             sigmas = [sigmas]
 
-        self._height = height
+        self._height = float(height)
 
         ndim = len(sigmas)
 
@@ -94,6 +102,9 @@ class GaussWeightPattern(WeightPattern):
     @sigmas.setter
     def sigmas(self, sigmas):
         self._sigmas = sigmas
+
+    def dimensionality(self):
+        return len(self._sigmas)
 
     def __str__(self):
         return "GaussWeightPattern(height=" + str(self._height) + ", mean=" + str(self._mean)\
