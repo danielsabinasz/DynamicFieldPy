@@ -48,6 +48,35 @@ class SumWeightPattern(WeightPattern):
         return "SumWeightPattern(weight_patterns=" + ','.join([str(x) for x in self._weight_patterns]) + ")"
 
 
+
+class RepeatWeightPattern(WeightPattern):
+    """A weight pattern that repeats the given weight pattern n times
+    """
+    def __init__(self, weight_pattern, num_repeats: int):
+        """Creates a SumWeightPattern
+
+        :param weight_patterns: the weight patters to repeat
+        :param num_repeats: number of repetitions of the weight pattern
+        """
+        self._weight_pattern = weight_pattern
+        self._num_repeats = num_repeats
+
+    @property
+    def weight_pattern(self):
+        return self._weight_pattern
+
+    @property
+    def num_repeats(self):
+        return self._num_repeats
+
+    def dimensionality(self):
+        return self._weight_pattern.dimensionality()+1
+
+    def __str__(self):
+        return "RepeatWeightPattern(weight_pattern=" + str(self._weight_pattern) + ")"
+
+
+
 class GaussWeightPattern(WeightPattern):
     """Base class for a Gauss weight pattern
     """

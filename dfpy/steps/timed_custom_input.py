@@ -5,7 +5,7 @@ from dfpy.steps.input import Input
 class TimedCustomInput(Input):
     """Computes a timed custom input
     """
-    def __init__(self, dimensions: list, timed_custom_input, name="TimedCustomInput"):
+    def __init__(self, dimensions: list, timed_custom_input = None, name="TimedCustomInput"):
         """Creates a CustomInput.
 
         :param dimensions: list of `:class:`.Dimension` objects characterizing the dimensions of the custom input.

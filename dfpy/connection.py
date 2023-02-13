@@ -1,10 +1,22 @@
-from enum import Enum
 from typing import Union
 
+from dfpy import CustomInput
 from dfpy.shared import get_default_neural_structure
 from dfpy.weight_patterns import WeightPattern
 from dfpy.steps import Node, Step
 from dfpy.activation_function import ActivationFunction
+import importlib
+
+#
+# Import TensorFlow if it exists
+#
+tf_spec = importlib.util.find_spec("tensorflow")
+if tf_spec != None:
+    import tensorflow as tf
+else:
+    tf = None
+
+import numpy as np
 
 
 class Connection():
@@ -127,6 +139,9 @@ def connect(source, target, kernel_weights=None, pointwise_weights=None, activat
     if ns is None:
         ns = get_default_neural_structure()
 
+    if tf is not None and isinstance(source, tf.Tensor) or isinstance(source, np.ndarray):
+        source = CustomInput(source)
+
     source_dim = source.dimensionality()
     target_dim = target.dimensionality()
     if source_dim > target_dim:
@@ -135,6 +150,12 @@ def connect(source, target, kernel_weights=None, pointwise_weights=None, activat
                                f"dimensionality {target_dim} requires {source_dim - target_dim} contractions. "
                                f"Specify a list of contracted dimension indices using the "
                                f"`contract_dimensions` parameter!")
+    if source_dim != 0 and source_dim < target_dim:
+        if source_dim + len(expand_dimensions) != target_dim:
+            raise RuntimeError(f"Connecting a step of dimensionality {source_dim} to a step of "
+                               f"dimensionality {target_dim} requires {target_dim-source_dim} expansions. "
+                               f"Specify a list of expanded dimension indices using the "
+                               f"`expand_dimensions` parameter!")
 
     return ns.connect(source, target, kernel_weights, pointwise_weights, activation_function,
                        contract_dimensions, contraction_weights,

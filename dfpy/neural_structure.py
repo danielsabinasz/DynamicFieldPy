@@ -1,3 +1,4 @@
+from dfpy.activation_function import Sigmoid
 from dfpy.shared import get_default_neural_structure
 from dfpy.weight_patterns import CustomWeightPattern
 
@@ -92,8 +93,9 @@ class NeuralStructure:
                 if isinstance(input_step, Field) or isinstance(input_step, Node):
                     activation_function = input_step.activation_function
                 else:
-                    raise RuntimeError(f"Cannot connect a {type(input_step)} synaptically without providing an "
-                                       f"activation function")
+                    activation_function = Sigmoid(1)
+                    #raise RuntimeError(f"Cannot connect a {type(input_step)} synaptically without providing an "
+                    #                   f"activation function")
 
             if type(kernel_weights) == list or isinstance(kernel_weights, np.ndarray)\
                     or isinstance(kernel_weights, tf.Tensor):

@@ -25,3 +25,7 @@ class Boost(Step):
     def value(self, value):
         self._value = value
         self._notify_observers("value")
+
+    def dimensionality(self):
+        return 0
+
