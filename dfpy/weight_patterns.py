@@ -1,3 +1,5 @@
+import numpy as np
+
 class WeightPattern:
     """Base class for a weight pattern
     """
@@ -13,6 +15,9 @@ class CustomWeightPattern(WeightPattern):
         :param pattern: the pattern
         """
         self._pattern = pattern
+
+    def dimensionality(self):
+        return len(np.array(self._pattern).shape)
 
     @property
     def pattern(self):
@@ -35,7 +40,7 @@ class SumWeightPattern(WeightPattern):
         ndim = weight_patterns[0].dimensionality()
         for weight_pattern in weight_patterns:
             if weight_pattern.dimensionality() != ndim:
-                raise RuntimeError("Components of SumWeightPattern have non-matching dimensionalities")
+                raise RuntimeError("Components of SumWeightPattern have non-matching dimensionalities " + str(ndim) + " vs. " + str(weight_pattern.dimensionality()))
 
     @property
     def weight_patterns(self):
