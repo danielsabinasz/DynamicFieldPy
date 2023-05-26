@@ -1,3 +1,4 @@
+from dfpy import NoiseInput
 from dfpy.activation_function import Sigmoid
 from dfpy.shared import get_default_neural_structure
 from dfpy.weight_patterns import CustomWeightPattern
@@ -85,7 +86,7 @@ class NeuralStructure:
 
         input_step_index = self._steps.index(input_step)
 
-        if kernel_weights is not None or pointwise_weights is not None\
+        if (kernel_weights is not None or pointwise_weights is not None) and not isinstance(input_step, NoiseInput)\
                 or (isinstance(input_step, Field) or isinstance(input_step, Node))\
                 and (isinstance(output_step, Field) or isinstance(output_step, Node)):
             # The user intends a synaptic connection
@@ -110,7 +111,8 @@ class NeuralStructure:
                                             contraction_weights,
                                             expand_dimensions)
         else:
-            connection = DirectConnection(input_step, input_step_index, output_step, contract_dimensions,
+            connection = DirectConnection(input_step, input_step_index, output_step, kernel_weights,
+                                          contract_dimensions,
                                           contraction_weights,
                                           expand_dimensions)
 

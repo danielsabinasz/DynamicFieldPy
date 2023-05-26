@@ -30,11 +30,12 @@ class CustomWeightPattern(WeightPattern):
 class SumWeightPattern(WeightPattern):
     """A sum weight pattern that is the sum of multiple other weight pattern
     """
-    def __init__(self, weight_patterns: list):
+    def __init__(self, weight_patterns: list, cutoff_factor=4., field_size = None):
         """Creates a SumWeightPattern
 
         :param weight_patterns: the weight patters to sum
         """
+        #cutoff_factor=None
         self._weight_patterns = weight_patterns
 
         ndim = weight_patterns[0].dimensionality()
@@ -42,12 +43,20 @@ class SumWeightPattern(WeightPattern):
             if weight_pattern.dimensionality() != ndim:
                 raise RuntimeError("Components of SumWeightPattern have non-matching dimensionalities " + str(ndim) + " vs. " + str(weight_pattern.dimensionality()))
 
+        if field_size is not None and cutoff_factor is not None and type(weight_patterns[0]) == GaussWeightPattern and type(weight_patterns[1]) == GaussWeightPattern:
+            self._range = computeKernelRange(max(weight_patterns[0].sigmas[0], weight_patterns[1].sigmas[0]), cutoff_factor, field_size, False)
+        else:
+            self._range = None
+
     @property
     def weight_patterns(self):
         return self._weight_patterns
 
     def dimensionality(self):
         return self._weight_patterns[0].dimensionality()
+
+    def range(self):
+        return self._range
 
     def __str__(self):
         return "SumWeightPattern(weight_patterns=" + ','.join([str(x) for x in self._weight_patterns]) + ")"
@@ -85,7 +94,7 @@ class RepeatWeightPattern(WeightPattern):
 class GaussWeightPattern(WeightPattern):
     """Base class for a Gauss weight pattern
     """
-    def __init__(self, height, sigmas, mean=None):
+    def __init__(self, height, sigmas, mean=None, cutoff_factor=4., field_size=None):
         """Creates a WeightPatternGauss.
         :param float height: amplitude of the Gauss
         :param array_like mean: mean of the Gauss
@@ -113,6 +122,11 @@ class GaussWeightPattern(WeightPattern):
             sigmas = [float(sigmas)]
         self._sigmas = sigmas
 
+        if field_size is not None and cutoff_factor is not None:
+            self._range = computeKernelRange(sigmas[0], cutoff_factor, field_size, False)
+        else:
+            self._range = None
+
     @property
     def height(self):
         return self._height
@@ -139,6 +153,9 @@ class GaussWeightPattern(WeightPattern):
 
     def dimensionality(self):
         return len(self._sigmas)
+
+    def range(self):
+        return self._range
 
     def __str__(self):
         return "GaussWeightPattern(height=" + str(self._height) + ", mean=" + str(self._mean)\
@@ -172,5 +189,19 @@ class RepeatedValueWeightPattern(WeightPattern):
     def shape(self, shape):
         self._shape = shape
 
+    def dimensionality(self):
+        return len(self._shape)
+
     def __str__(self):
         return "RepeatedValueWeightPattern(value=" + str(self._value) + ", shape=" + str(self._shape) + ")"
+
+
+# By Sebastian Schneegans (https://github.com/cosivina/cosivina_python)
+def computeKernelRange(sigma, cutoffFactor, fieldSize, circular = True):
+    if circular:
+        r = np.ceil(sigma * cutoffFactor)
+        h = (fieldSize-1)/2
+        return np.array([min(r, np.floor(h)), min(r, np.ceil(h))], dtype=np.int32)
+    else:
+        r = int(min(np.ceil(sigma * cutoffFactor), (fieldSize - 1)))
+        return np.array([r, r], dtype=np.int32)

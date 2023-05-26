@@ -36,13 +36,18 @@ class Connection():
 
 
 class DirectConnection(Connection):
-    def __init__(self, input_step, input_step_index, output_step, contract_dimensions: list=None,
+    def __init__(self, input_step, input_step_index, output_step, kernel_weights, contract_dimensions: list=None,
                  contraction_weights: list=None,
                  expand_dimensions: list=None, name="Direct Connection"):
         super().__init__(input_step, input_step_index, output_step, name)
+        self._kernel_weights = kernel_weights
         self._contract_dimensions = contract_dimensions
         self._contraction_weights = contraction_weights
         self._expand_dimensions = expand_dimensions
+
+    @property
+    def kernel_weights(self):
+        return self._kernel_weights
 
     @property
     def contract_dimensions(self):

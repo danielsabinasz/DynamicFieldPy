@@ -149,6 +149,7 @@ class Field(Step):
         return len(self._dimensions)
 
 
+
 def build_stabilized_kernel(dimensions):
     if len(dimensions) == 3:
         return SumWeightPattern([

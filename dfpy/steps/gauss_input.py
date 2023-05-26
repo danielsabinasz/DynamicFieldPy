@@ -14,7 +14,7 @@ class GaussInput(Input):
         :param string name: name of the step
         """
 
-        super().__init__(static=True, name=name)
+        super().__init__(static=False, name=name)
 
         if type(dimensions) == tuple:
             dimensions = dimensions_from_sizes(*dimensions)

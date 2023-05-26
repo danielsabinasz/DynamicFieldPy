@@ -1,4 +1,4 @@
-from dfpy.dimension import Dimension, dimensions_from_sizes
+from dfpy.dimension import Dimension, dimensions_from_sizes, shape_from_list_of_dimensions
 from dfpy.steps import *
 from dfpy.neural_structure import NeuralStructure
 from dfpy.neural_structure import add_step

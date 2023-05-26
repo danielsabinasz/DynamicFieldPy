@@ -45,3 +45,6 @@ class NoiseInput(Input):
     def strength(self, strength):
         self._strength = strength
         self._notify_observers("strength")
+
+    def dimensionality(self):
+        return len(self._dimensions)

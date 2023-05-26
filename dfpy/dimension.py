@@ -62,3 +62,8 @@ class Dimension:
 
 def dimensions_from_sizes(*sizes):
     return [Dimension.from_size(size) for size in sizes]
+
+
+def shape_from_list_of_dimensions(dimensions):
+    return [dimension.size for dimension in dimensions]
+
