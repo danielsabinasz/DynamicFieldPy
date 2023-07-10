@@ -20,6 +20,8 @@ class Step:
         self._inputs = inputs
         self._name = unique_name(name, neural_structure)
         self._observers = []
+        self._trainable = False
+        self._assignable = False
 
     def _post_constructor(self):
         self._neural_structure.add_step(self)
@@ -45,6 +47,22 @@ class Step:
         self._name = name
         for observer in self._observers:
             observer()
+
+    @property
+    def trainable(self):
+        return self._trainable
+
+    @trainable.setter
+    def trainable(self, trainable):
+        self._trainable = trainable
+
+    @property
+    def assignable(self):
+        return self._assignable
+
+    @assignable.setter
+    def assignable(self, assignable):
+        self._assignable = assignable
 
     def register_observer(self, observer):
         self._observers.append(observer)

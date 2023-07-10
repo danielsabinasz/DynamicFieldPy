@@ -25,6 +25,7 @@ class Connection():
         self._input_step_index = input_step_index
         self._output_step = output_step
         self._name = name
+        self._trainable = False
 
     @property
     def input_step_index(self):
@@ -33,6 +34,10 @@ class Connection():
     @property
     def input_step(self):
         return self._input_step
+
+    @property
+    def trainable(self):
+        return self._trainable
 
 
 class DirectConnection(Connection):
