@@ -11,11 +11,11 @@ class Dimension:
 
         if size is None:
             size = upper-lower
-            if size % 2 == 0:
-                size = size+1
+            #if size % 2 == 0:
+            #    size = size+1
 
         if size % 2 == 0:
-            raise RuntimeError("Please provide an odd size for the dimensions. This avoids incompatibilities between different simulation frameworks.")
+            RuntimeWarning("It is recommended to provide an odd size for the dimensions. This avoids incompatibilities between different simulation frameworks.")
 
 
         if type(lower) == int:

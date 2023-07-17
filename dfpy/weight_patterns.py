@@ -38,15 +38,23 @@ class SumWeightPattern(WeightPattern):
         #cutoff_factor=None
         self._weight_patterns = weight_patterns
 
+        if type(field_size) == int:
+            field_size = (field_size,)
+
         ndim = weight_patterns[0].dimensionality()
         for weight_pattern in weight_patterns:
             if weight_pattern.dimensionality() != ndim:
                 raise RuntimeError("Components of SumWeightPattern have non-matching dimensionalities " + str(ndim) + " vs. " + str(weight_pattern.dimensionality()))
 
         if field_size is not None and cutoff_factor is not None and type(weight_patterns[0]) == GaussWeightPattern and type(weight_patterns[1]) == GaussWeightPattern:
-            self._range = computeKernelRange(max(weight_patterns[0].sigmas[0], weight_patterns[1].sigmas[0]), cutoff_factor, field_size, False)
+            num_dims = weight_patterns[0].sigmas
+
+            self._ranges = []
+            for i in range(len(num_dims)):
+                max_sigma = max(weight_patterns[0].sigmas[i], weight_patterns[1].sigmas[i])
+                self._ranges.append(computeKernelRange(max_sigma, cutoff_factor, field_size[i], False))
         else:
-            self._range = None
+            self._ranges = None
 
     @property
     def weight_patterns(self):
@@ -55,8 +63,8 @@ class SumWeightPattern(WeightPattern):
     def dimensionality(self):
         return self._weight_patterns[0].dimensionality()
 
-    def range(self):
-        return self._range
+    def ranges(self):
+        return self._ranges
 
     def __str__(self):
         return "SumWeightPattern(weight_patterns=" + ','.join([str(x) for x in self._weight_patterns]) + ")"
@@ -104,6 +112,9 @@ class GaussWeightPattern(WeightPattern):
         if type(sigmas) == int or type(sigmas) == float:
             sigmas = [sigmas]
 
+        if type(field_size) == int or type(field_size) == float:
+            field_size = (float(field_size),)
+
         self._height = float(height)
 
         ndim = len(sigmas)
@@ -123,9 +134,11 @@ class GaussWeightPattern(WeightPattern):
         self._sigmas = sigmas
 
         if field_size is not None and cutoff_factor is not None:
-            self._range = computeKernelRange(sigmas[0], cutoff_factor, field_size, False)
+            self._ranges = []
+            for i in range(len(sigmas)):
+                self._ranges.append(computeKernelRange(sigmas[i], cutoff_factor, field_size[i], False))
         else:
-            self._range = None
+            self._ranges = None
 
     @property
     def height(self):
@@ -154,8 +167,8 @@ class GaussWeightPattern(WeightPattern):
     def dimensionality(self):
         return len(self._sigmas)
 
-    def range(self):
-        return self._range
+    def ranges(self):
+        return self._ranges
 
     def __str__(self):
         return "GaussWeightPattern(height=" + str(self._height) + ", mean=" + str(self._mean)\
@@ -203,5 +216,5 @@ def computeKernelRange(sigma, cutoffFactor, fieldSize, circular = True):
         h = (fieldSize-1)/2
         return np.array([min(r, np.floor(h)), min(r, np.ceil(h))], dtype=np.int32)
     else:
-        r = int(min(np.ceil(sigma * cutoffFactor), (fieldSize - 1)))
+        r = int(min(np.ceil(sigma * cutoffFactor), (fieldSize - 1)//2))
         return np.array([r, r], dtype=np.int32)
