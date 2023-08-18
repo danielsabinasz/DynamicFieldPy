@@ -14,7 +14,7 @@ class GaussInput(Input):
         :param string name: name of the step
         """
 
-        super().__init__(static=False, name=name)
+        super().__init__(static=True, name=name)
 
         if type(dimensions) == tuple:
             dimensions = dimensions_from_sizes(*dimensions)
@@ -82,7 +82,6 @@ class GaussInput(Input):
 
     def shape(self):
         return tuple([dimension.size for dimension in self._dimensions])
-
 
     def dimensionality(self):
         return len(self._dimensions)
