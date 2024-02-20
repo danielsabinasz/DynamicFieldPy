@@ -55,6 +55,8 @@ class Step:
     @trainable.setter
     def trainable(self, trainable):
         self._trainable = trainable
+        if trainable:
+            self.assignable = True
 
     @property
     def assignable(self):

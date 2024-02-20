@@ -86,7 +86,8 @@ class NeuralStructure:
 
         input_step_index = self._steps.index(input_step)
 
-        if (kernel_weights is not None or pointwise_weights is not None) and not isinstance(input_step, NoiseInput)\
+        # and not isinstance(input_step, NoiseInput)
+        if (kernel_weights is not None or pointwise_weights is not None)\
                 or (isinstance(input_step, Field) or isinstance(input_step, Node))\
                 and (isinstance(output_step, Field) or isinstance(output_step, Node)):
             # The user intends a synaptic connection
